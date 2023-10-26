@@ -6,32 +6,59 @@ import argparse
 import sys
 import json
 
+FILE_META=["file_name", "file_path", "download_time", "browser_name", "sender_name", "origin_url", "data_url"]
+
 def pretty_print(file_list, flag):
+    file_meta = {
+        FILE_META[0] : "",
+        FILE_META[1] : "",
+        FILE_META[2] : "",
+        FILE_META[3] : "",
+        FILE_META[4] : "",
+        FILE_META[5] : "",
+        FILE_META[6] : ""
+    }
 
     if flag == "airdrop":
         for file in file_list:
             uid = file
+            try:
+                for fm in FILE_META:
+                    if fm in file_list[uid].keys():
+                        file_meta[fm] = file_list[uid][fm]
+                    else:
+                        file_meta[fm] = "N/A"
+            except:
+                pass
             print('''\nFile {}
             Path: {}
             Time received: {}
-            Sender name: {}'''.format(file_list[uid]["file_name"],
-                                      file_list[uid]["file_path"],
-                                      file_list[uid]["download_time"],
-                                      file_list[uid]["sender_name"]))
+            Sender name: {}'''.format(file_meta["file_name"],
+                                      file_meta["file_path"],
+                                      file_meta["download_time"],
+                                      file_meta["sender_name"]))
     elif flag == "browser":
         for file in file_list:
             uid = file
+            try:
+                for fm in FILE_META:
+                    if fm in file_list[uid].keys():
+                        file_meta[fm] = file_list[uid][fm]
+                    else:
+                        file_meta[fm] = "N/A"
+            except:
+                pass
             print('''\nFile {}
             Path: {}
             Browser name: {}
             Time downloaded: {}
             Origin URL: {}
-            Data URL: {}'''.format(file_list[uid]["file_name"],
-                                      file_list[uid]["file_path"],
-                                      file_list[uid]["browser_name"],
-                                      file_list[uid]["download_time"],
-                                      file_list[uid]["origin_url"],
-                                      file_list[uid]["data_url"]))
+            Data URL: {}'''.format(file_meta["file_name"],
+                                        file_meta["file_path"],
+                                        file_meta["browser_name"],
+                                        file_meta["download_time"],
+                                        file_meta["origin_url"],
+                                        file_meta["data_url"]))
 
     print("\n\n")
 
